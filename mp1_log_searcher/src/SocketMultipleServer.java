@@ -1,6 +1,10 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * Main class as a server. This class will be able to handle multiple client
+ * connections.
+ */
 public class SocketMultipleServer {
     private ServerSocket serverSocket;
 
