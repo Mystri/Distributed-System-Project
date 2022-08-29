@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Main class as a client. This class will handle the input
+ * command and start a client that connect to all the servers.
+ */
 public class InputProcessor {
     public static void main(String[] args) {
         // TODO: Start a socket for each ip, maybe hardcode all of them
