@@ -23,10 +23,13 @@ public class SocketServer extends Thread {
             while ((inputLine = in.readLine()) != null) {
                 // TODO: handle grep if the input line is the query
                 LogSearcher logSearcher = new LogSearcher();
-                List<String> result = logSearcher.findLog(inputLine);
-                out.println(result);
+                LogResult logResult = logSearcher.findLog(inputLine, false);
+                out.println(logResult.matchedLogsCount);
+                for (String matchedLog: logResult.matchedLogs) {
+                    out.println(matchedLog);
+                }
+                System.out.println("before flush");
                 out.flush();
-                System.out.println("in server while " + inputLine);
             }
             System.out.println("Connection closed");
         } catch (IOException e) {
