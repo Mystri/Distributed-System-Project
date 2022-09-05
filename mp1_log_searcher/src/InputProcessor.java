@@ -26,8 +26,11 @@ public class InputProcessor {
                 break;
             }
             for (SocketClient client : clients) {
-                String result = client.sendMessage(query);
-                System.out.println("result is " + result);
+                List<String> result = client.sendMessage(query);
+                System.out.println("result is ");
+                for (String res: result) {
+                    System.out.println(res);
+                }
             }
         }
         scanner.close();
