@@ -4,7 +4,7 @@ find ./src -name '*.java' > sources.txt
 rm -rf ./compile
 mkdir ./compile
 # Compile the project
-javac -d ./compile -classpath ./compile/mp1.jar @sources.txt
+javac -target 8 -source 8 -d ./compile -classpath ./compile/mp1.jar @sources.txt
 # Start the server
 # Use locally
 #java -classpath ./compile:./compile/mp1.jar ./src/SocketMultipleServer.java
