@@ -1,3 +1,6 @@
+import services.GrepServiceRegex;
+
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -6,7 +9,7 @@ import java.util.Scanner;
  * Main class as a client. This class will handle the input
  * command and start a client that connect to all the servers.
  */
-public class InputProcessor {
+public class LogFinderMain {
     public static void main(String[] args) {
         // TODO: Start a socket for each ip, maybe hardcode all of them
         String[] ips = {"::1"};
@@ -19,12 +22,22 @@ public class InputProcessor {
         }
 
         Scanner scanner = new Scanner(System.in);
+        PrintStream out = System.out;
         while (true) {
-            System.out.println("grep query: ");
+            System.out.print("$ ");
+
             String query = scanner.nextLine();
             if (query.equals("exit")) {
                 break;
             }
+
+            if (query.startsWith("grep")) {
+                String[] params = query.split(" ");
+                if (params.length == 3 && params[1].equals("-e")) {
+                    GrepServiceRegex.run(params[2]);
+                }
+            }
+
             for (SocketClient client : clients) {
                 String result = client.sendMessage(query);
                 System.out.println("result is " + result);
