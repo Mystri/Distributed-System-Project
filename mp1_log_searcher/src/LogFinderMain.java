@@ -6,7 +6,7 @@ import java.util.Scanner;
  * Main class as a client. This class will handle the input
  * command and start a client that connect to all the servers.
  */
-public class InputProcessor {
+public class LogFinderMain {
     public static void main(String[] args) {
         // TODO: Start a socket for each ip, maybe hardcode all of them
         String[] ips = {"::1"};
@@ -20,16 +20,19 @@ public class InputProcessor {
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("grep query: ");
+            System.out.print("$ ");
+
             String query = scanner.nextLine();
             if (query.equals("exit")) {
                 break;
             }
-            for (SocketClient client : clients) {
-                List<String> result = client.sendMessage(query);
-                System.out.println("result is ");
-                for (String res: result) {
-                    System.out.println(res);
+
+            if (query.startsWith("grep")) {
+                for (SocketClient client : clients) {
+                    List<String> result = client.sendMessage(query);
+                    for (String s : result) {
+                        System.out.println(s);
+                    }
                 }
             }
         }
