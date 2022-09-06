@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SocketClient {
     private PrintStream out;
@@ -18,7 +20,7 @@ public class SocketClient {
         System.out.println("Loading contents of URL: " + serverIp);
 
         try {
-            socket = new Socket(serverIp, 123);
+            socket = new Socket(serverIp, 8001);
             out = new PrintStream(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (Exception e) {
@@ -26,12 +28,17 @@ public class SocketClient {
         }
     }
 
-    public String sendMessage(String message) {
+    public List<String> sendMessage(String message) {
         out.println(message);
-        String resp;
+        List<String> resp = new ArrayList<>();
         try {
-            resp = in.readLine();
-            System.out.println("resp " + resp);
+            String r = in.readLine();
+            // We will know how many lines to read based on this information.
+            int matchedLogsCount = Integer.parseInt(r);
+            for (int i = 0; i < matchedLogsCount; i++) {
+                r = in.readLine();
+                resp.add(r);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

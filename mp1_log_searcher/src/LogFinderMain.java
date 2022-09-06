@@ -38,12 +38,9 @@ public class LogFinderMain {
                 }
 
 
+
             }
 
-            for (SocketClient client : clients) {
-                String result = client.sendMessage(query);
-                System.out.println("result is " + result);
-            }
         }
         scanner.close();
     }
