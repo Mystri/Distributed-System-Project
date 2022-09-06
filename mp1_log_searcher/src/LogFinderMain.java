@@ -1,4 +1,3 @@
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,7 +19,6 @@ public class LogFinderMain {
         }
 
         Scanner scanner = new Scanner(System.in);
-        PrintStream out = System.out;
         while (true) {
             System.out.print("$ ");
 
@@ -37,8 +35,6 @@ public class LogFinderMain {
                     }
                 }
             }
-
-
         }
         scanner.close();
     }

@@ -31,26 +31,26 @@ public class SocketServer extends Thread {
                 String[] params = inputLine.split(" ");
                 if (params.length == 3) {
                     switch (params[1]) {
-                        case "-E":
+                        case "-E" -> {
                             isRegex = true;
                             returnCount = false;
-                            break;
-                        case "-c":
+                        }
+                        case "-c" -> {
                             isRegex = false;
                             returnCount = true;
-                            break;
-                        case "-Ec":
+                        }
+                        case "-Ec" -> {
                             isRegex = true;
                             returnCount = true;
-                            break;
+                        }
                     }
                 } else {
                     isRegex = false;
                     returnCount = false;
                 }
 
-                LogResult logResult = logSearcher.findLog(inputLine, isRegex);
-                if (returnCount) out.println(logResult.matchedLogsCount);
+                LogResult logResult = logSearcher.findLog(params[params.length - 1], isRegex);
+                out.println(logResult.matchedLogsCount);
                 for (String matchedLog: logResult.matchedLogs) {
                     out.println(matchedLog);
                 }
