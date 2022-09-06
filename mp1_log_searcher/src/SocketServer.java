@@ -20,11 +20,37 @@ public class SocketServer extends Thread {
             out = new PrintWriter(clientSocket.getOutputStream());
 
             String inputLine;
+
+            LogSearcher logSearcher = new LogSearcher();
+            boolean isRegex = false;
+            boolean returnCount = false;
+
             while ((inputLine = in.readLine()) != null) {
-                // TODO: handle grep if the input line is the query
-                LogSearcher logSearcher = new LogSearcher();
-                LogResult logResult = logSearcher.findLog(inputLine, false);
-                out.println(logResult.matchedLogsCount);
+
+                /* parse options */
+                String[] params = inputLine.split(" ");
+                if (params.length == 3) {
+                    switch (params[1]) {
+                        case "-E":
+                            isRegex = true;
+                            returnCount = false;
+                            break;
+                        case "-c":
+                            isRegex = false;
+                            returnCount = true;
+                            break;
+                        case "-Ec":
+                            isRegex = true;
+                            returnCount = true;
+                            break;
+                    }
+                } else {
+                    isRegex = false;
+                    returnCount = false;
+                }
+
+                LogResult logResult = logSearcher.findLog(inputLine, isRegex);
+                if (returnCount) out.println(logResult.matchedLogsCount);
                 for (String matchedLog: logResult.matchedLogs) {
                     out.println(matchedLog);
                 }
