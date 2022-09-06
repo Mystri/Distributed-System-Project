@@ -36,6 +36,8 @@ public class LogFinderMain {
                 if (params.length == 3 && params[1].equals("-e")) {
                     GrepServiceRegex.run(params[2]);
                 }
+
+
             }
 
             for (SocketClient client : clients) {
