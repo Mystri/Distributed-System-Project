@@ -18,8 +18,8 @@ public class SocketMultipleServer {
             serverSocket = new ServerSocket(8001);
             System.out.println("Listening for a connection");
             while (true) {
-                System.out.println("Received a connection");
                 new SocketServer(serverSocket.accept()).start();
+                System.out.println("Received a connection ");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

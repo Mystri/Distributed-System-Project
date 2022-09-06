@@ -54,7 +54,6 @@ public class SocketServer extends Thread {
                 for (String matchedLog: logResult.matchedLogs) {
                     out.println(matchedLog);
                 }
-                System.out.println("before flush");
                 out.flush();
             }
             System.out.println("Connection closed");
