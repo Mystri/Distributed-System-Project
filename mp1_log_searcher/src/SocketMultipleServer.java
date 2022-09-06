@@ -15,7 +15,7 @@ public class SocketMultipleServer {
 
     public void start() {
         try {
-            serverSocket = new ServerSocket(123);
+            serverSocket = new ServerSocket(8001);
             System.out.println("Listening for a connection");
             while (true) {
                 System.out.println("Received a connection");

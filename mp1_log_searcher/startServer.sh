@@ -6,4 +6,7 @@ mkdir ./compile
 # Compile the project
 javac -d ./compile -classpath ./compile/mp1.jar @sources.txt
 # Start the server
-java -classpath ./compile:./compile/mp1.jar ./src/SocketMultipleServer.java
+# Use locally
+#java -classpath ./compile:./compile/mp1.jar ./src/SocketMultipleServer.java
+# Use on VM
+java -classpath ./compile:./compile/mp1.jar SocketMultipleServer

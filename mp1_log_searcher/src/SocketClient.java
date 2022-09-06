@@ -20,7 +20,7 @@ public class SocketClient {
         System.out.println("Loading contents of URL: " + serverIp);
 
         try {
-            socket = new Socket(serverIp, 123);
+            socket = new Socket(serverIp, 8001);
             out = new PrintStream(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (Exception e) {
