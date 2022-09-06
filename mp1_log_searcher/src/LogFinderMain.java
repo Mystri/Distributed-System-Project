@@ -1,6 +1,3 @@
-import services.GrepServiceRegex;
-import services.GrepServiceStr;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +31,13 @@ public class LogFinderMain {
 
             if (query.startsWith("grep")) {
                 for (SocketClient client : clients) {
-                    client.sendMessage(query);
+                    List<String> result = client.sendMessage(query);
+                    for (String s : result) {
+                        System.out.println(s);
+                    }
                 }
             }
+
 
         }
         scanner.close();

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class LogSearcher {
-    private static final String LOG_DIRECTORY = "../logFiles/";
+    private static final String LOG_DIRECTORY = ".\\logFilesg   ";
     private static final String LOG_FILE_EXTENSION = ".log";
 
     public LogResult findLog(String keyword, Boolean isRegex) {
