@@ -8,8 +8,20 @@ import java.util.Scanner;
  */
 public class LogFinderMain {
     public static void main(String[] args) {
-        // TODO: Start a socket for each ip, maybe hardcode all of them
-        String[] ips = {"::1"};
+        String[] ips = {
+                "fa22-cs425-0501.cs.illinois.edu",
+                "fa22-cs425-0502.cs.illinois.edu",
+                "fa22-cs425-0503.cs.illinois.edu",
+                "fa22-cs425-0504.cs.illinois.edu",
+                "fa22-cs425-0505.cs.illinois.edu",
+                "fa22-cs425-0506.cs.illinois.edu",
+                "fa22-cs425-0507.cs.illinois.edu",
+                "fa22-cs425-0508.cs.illinois.edu",
+                "fa22-cs425-0509.cs.illinois.edu",
+                "fa22-cs425-0510.cs.illinois.edu"
+        };
+        // Used for local testing
+        // String[] ips = {"::1"};
 
         List<SocketClient> clients = new ArrayList<>();
         for (int i = 0; i < ips.length; i++) {
@@ -26,7 +38,6 @@ public class LogFinderMain {
             if (query.equals("exit")) {
                 break;
             }
-
             if (query.startsWith("grep")) {
                 for (SocketClient client : clients) {
                     List<String> result = client.sendMessage(query);
