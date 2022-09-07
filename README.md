@@ -1,4 +1,4 @@
-# cs425-MP1-Yuankai-Zhuoyi
+# cs425-MP1-Yuankai-Boyou
 
 ## MP1
 Run `sh startServer.sh` on all the machines and then use a different terminal and run `sh startClient.sh` as the client to type the query.
