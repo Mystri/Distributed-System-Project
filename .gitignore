@@ -24,3 +24,4 @@ java/build/**
 
 /mp1_log_searcher/out/
 /mp1_log_searcher/compile/
+/mp1_log_searcher/logFiles/
