@@ -21,32 +21,35 @@ public class LogFinderMain {
                 "fa22-cs425-0510.cs.illinois.edu"
         };
         // Used for local testing
-        // String[] ips = {"::1"};
+        // String[] ips = {"::1", "fa22-cs425-0501.cs.illinois.edu"};
 
         List<SocketClient> clients = new ArrayList<>();
         for (int i = 0; i < ips.length; i++) {
             SocketClient client = new SocketClient(ips[i]);
-            clients.add(client);
-            client.start();
+            boolean isSucceeded = client.start();
+            if (isSucceeded) {
+                clients.add(client);
+            }
         }
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.print("$ ");
-
             String query = scanner.nextLine();
-            if (query.equals("exit")) {
-                break;
-            }
-            if (query.startsWith("grep")) {
+            if (query.startsWith("grep ")) {
+                List<String> resultLogs = new ArrayList<>();
                 for (SocketClient client : clients) {
-                    List<String> result = client.sendMessage(query);
-                    for (String s : result) {
-                        System.out.println(s);
-                    }
+                    List<String> singleClientResult = client.sendMessage(query);
+                    resultLogs.addAll(singleClientResult);
                 }
+                for (String logs : resultLogs) {
+                    System.out.println(logs);
+                }
+            } else {
+                System.out.println("Unexpected Query");
             }
         }
-        scanner.close();
+        // Exit by closing the terminal or pressing ctrl+c. So we don't need the line below.
+        // scanner.close();
     }
 }
