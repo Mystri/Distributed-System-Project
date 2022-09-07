@@ -6,7 +6,6 @@ import java.net.ServerSocket;
  * connections.
  */
 public class SocketMultipleServer {
-    private ServerSocket serverSocket;
 
     public static void main(String[] args) {
         SocketMultipleServer server = new SocketMultipleServer();
@@ -15,20 +14,12 @@ public class SocketMultipleServer {
 
     public void start() {
         try {
-            serverSocket = new ServerSocket(8001);
+            ServerSocket serverSocket = new ServerSocket(8001);
             System.out.println("Listening for a connection");
             while (true) {
                 new SocketServer(serverSocket.accept()).start();
                 System.out.println("Received a connection ");
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void stop() {
-        try {
-            serverSocket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

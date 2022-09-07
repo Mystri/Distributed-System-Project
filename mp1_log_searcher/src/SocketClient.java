@@ -6,25 +6,31 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Client class. It will connect to a server, send a message when the method is called,
+ * and print out the responses.
+ */
 public class SocketClient {
     private PrintStream out;
     private BufferedReader in;
     Socket socket;
-    private String serverIp;
+    private final String serverIp;
 
     public SocketClient(String serverIp) {
         this.serverIp = serverIp;
     }
 
-    public void start() {
+    public boolean start() {
         System.out.println("Loading contents of URL: " + serverIp);
-
         try {
             socket = new Socket(serverIp, 8001);
             out = new PrintStream(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            // We don't print stack trace to keep the console clean.
+            System.out.println("Connect to " + serverIp + " failed");
+            return false;
         }
     }
 
@@ -33,25 +39,18 @@ public class SocketClient {
         List<String> resp = new ArrayList<>();
         try {
             String r = in.readLine();
-            // We will know how many lines to read based on this information.
-            int matchedLogsCount = Integer.parseInt(r);
-            for (int i = 0; i < matchedLogsCount; i++) {
-                r = in.readLine();
-                resp.add(r);
+            // r will be null if the server is turned off.
+            if (r != null) {
+                // We will know how many lines to read based on this information.
+                int outputLineCount = Integer.parseInt(r);
+                for (int i = 0; i < outputLineCount; i++) {
+                    r = in.readLine();
+                    resp.add(r);
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return resp;
-    }
-
-    public void stopConnection() {
-        try {
-            in.close();
-            out.close();
-            socket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
