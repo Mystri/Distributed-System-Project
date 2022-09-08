@@ -44,6 +44,8 @@ public class SocketServer extends Thread {
         }
     }
 
+    // Return the file path if there is only one file with expected format under
+    // the directory. Otherwise, return null.
     private String getSingleFilePath() {
         File[] allFiles = new File(LOG_DIRECTORY).listFiles();
         List<String> output = new ArrayList<>();

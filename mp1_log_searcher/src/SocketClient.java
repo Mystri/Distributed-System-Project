@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Client class. It will connect to a server, send a message when the method is called,
- * and print out the responses.
+ * Client class. It will connect to a server using port 8001, send the message,
+ * and print out the responses received from server.
  */
 public class SocketClient {
     private PrintStream out;
@@ -36,21 +36,21 @@ public class SocketClient {
 
     public List<String> sendMessage(String message) {
         out.println(message);
-        List<String> resp = new ArrayList<>();
+        List<String> responses = new ArrayList<>();
         try {
-            String r = in.readLine();
-            // r will be null if the server is turned off.
-            if (r != null) {
+            String singleLineResponse = in.readLine();
+            // singleLineResponse will be null if the server is disconnected.
+            if (singleLineResponse != null) {
                 // We will know how many lines to read based on this information.
-                int outputLineCount = Integer.parseInt(r);
+                int outputLineCount = Integer.parseInt(singleLineResponse);
                 for (int i = 0; i < outputLineCount; i++) {
-                    r = in.readLine();
-                    resp.add(r);
+                    singleLineResponse = in.readLine();
+                    responses.add(singleLineResponse);
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return resp;
+        return responses;
     }
 }

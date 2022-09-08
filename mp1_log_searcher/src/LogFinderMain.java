@@ -4,10 +4,11 @@ import java.util.Scanner;
 
 /**
  * Main class as a client. This class will handle the input
- * command and start a client that connect to all the servers.
+ * command and start multiple clients that connect to all the servers.
  */
 public class LogFinderMain {
     public static void main(String[] args) {
+        // List of all the VMs
         String[] ips = {
                 "fa22-cs425-0501.cs.illinois.edu",
                 "fa22-cs425-0502.cs.illinois.edu",
@@ -20,12 +21,10 @@ public class LogFinderMain {
                 "fa22-cs425-0509.cs.illinois.edu",
                 "fa22-cs425-0510.cs.illinois.edu"
         };
-        // Used for local testing
-        // String[] ips = {"::1", "fa22-cs425-0501.cs.illinois.edu"};
 
         List<SocketClient> clients = new ArrayList<>();
-        for (int i = 0; i < ips.length; i++) {
-            SocketClient client = new SocketClient(ips[i]);
+        for (String ip : ips) {
+            SocketClient client = new SocketClient(ip);
             boolean isSucceeded = client.start();
             if (isSucceeded) {
                 clients.add(client);
