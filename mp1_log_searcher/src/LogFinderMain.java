@@ -38,12 +38,29 @@ public class LogFinderMain {
             if (query.startsWith("grep ")) {
                 long start = System.currentTimeMillis();
                 List<String> resultLogs = new ArrayList<>();
+                int totalCount = 0;
                 for (SocketClient client : clients) {
                     List<String> singleClientResult = client.sendMessage(query);
                     resultLogs.addAll(singleClientResult);
+                    if (shouldReturnCount(query)) {
+                        // When the user wants the count, we will also need to calculate the total count.
+                        // The line will have the format fileLocation:lineCount
+                        for (String res: singleClientResult) {
+                            String[] splitedResponse = res.split(":");
+                            try {
+                                int singleCount = Integer.parseInt(splitedResponse[splitedResponse.length - 1]);
+                                totalCount += singleCount;
+                            } catch (Exception e) {
+                                // In case the calculation failed, we will choose to not add the total count.
+                            }
+                        }
+                    }
                 }
                 for (String logs : resultLogs) {
                     System.out.println(logs);
+                }
+                if (shouldReturnCount(query)) {
+                    System.out.println("Total number for the matching lines is: " + totalCount);
                 }
                 long finish = System.currentTimeMillis();
                 long timeElapsed = finish - start;
@@ -54,5 +71,13 @@ public class LogFinderMain {
         }
         // Exit by closing the terminal or pressing ctrl+c. So we don't need the line below.
         // scanner.close();
+    }
+
+    private static boolean shouldReturnCount(String message) {
+        String[] splitedMessage = message.split(" ");
+        if (splitedMessage.length >= 2) {
+            return splitedMessage[1].equals("-c") || splitedMessage[1].equals("-Ec");
+        }
+        return false;
     }
 }

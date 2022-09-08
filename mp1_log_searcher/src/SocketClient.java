@@ -43,37 +43,14 @@ public class SocketClient {
             if (singleLineResponse != null) {
                 // We will know how many lines to read based on this information.
                 int outputLineCount = Integer.parseInt(singleLineResponse);
-                int totalCount = 0;
                 for (int i = 0; i < outputLineCount; i++) {
                     singleLineResponse = in.readLine();
                     responses.add(singleLineResponse);
-                    if (shouldReturnCount(message)) {
-                        // When the user wants the count, we will also need to calculate the total count.
-                        // The line will have the format fileLocation:lineCount
-                        String[] splitedResponse = singleLineResponse.split(":");
-                        try {
-                            int singleCount = Integer.parseInt(splitedResponse[splitedResponse.length - 1]);
-                            totalCount += singleCount;
-                        } catch (Exception e) {
-                            // In case the calculation failed, we will choose to not add the total count.
-                        }
-                    }
-                }
-                if (shouldReturnCount(message)) {
-                    responses.add("Total matching line is: " + totalCount);
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return responses;
-    }
-
-    private boolean shouldReturnCount(String message) {
-        String[] splitedMessage = message.split(" ");
-        if (splitedMessage.length >= 2) {
-            return splitedMessage[1].equals("-c") || splitedMessage[1].equals("-Ec");
-        }
-        return false;
     }
 }
