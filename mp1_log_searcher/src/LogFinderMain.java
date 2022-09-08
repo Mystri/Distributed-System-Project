@@ -36,6 +36,7 @@ public class LogFinderMain {
             System.out.print("$ ");
             String query = scanner.nextLine();
             if (query.startsWith("grep ")) {
+                long start = System.currentTimeMillis();
                 List<String> resultLogs = new ArrayList<>();
                 for (SocketClient client : clients) {
                     List<String> singleClientResult = client.sendMessage(query);
@@ -44,6 +45,9 @@ public class LogFinderMain {
                 for (String logs : resultLogs) {
                     System.out.println(logs);
                 }
+                long finish = System.currentTimeMillis();
+                long timeElapsed = finish - start;
+                System.out.println("Total time used for this command is " + timeElapsed + " milliseconds");
             } else {
                 System.out.println("Unexpected Query");
             }

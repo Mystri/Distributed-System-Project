@@ -26,10 +26,12 @@ public class SocketServer extends Thread {
             // Check log file in the folder. Add the path text to the beginning of each line
             // if there is only one file. File names will be added when there are multiple files.
             String singleFilePath = getSingleFilePath();
+            QueryHandler queryHandler = new QueryHandler();
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                QueryHandler queryHandler = new QueryHandler();
+                long start = System.currentTimeMillis();
+
                 List<String> commandResults = queryHandler.getQueryResults(inputLine, singleFilePath);
                 // First, tell the client the number of lines will be printed.
                 out.println(commandResults.size());
@@ -37,6 +39,10 @@ public class SocketServer extends Thread {
                     out.println(commandResult);
                 }
                 out.flush();
+
+                long finish = System.currentTimeMillis();
+                long timeElapsed = finish - start;
+                System.out.println("Server takes " + timeElapsed + " milliseconds to process the command");
             }
             System.out.println("Connection closed");
         } catch (IOException e) {
