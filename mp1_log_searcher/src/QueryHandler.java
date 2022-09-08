@@ -8,12 +8,14 @@ import java.util.List;
  * Use a process to run the grep command directly.
  */
 public class QueryHandler {
+    private static final String LOG_FILE_LOCATION = " ./logFiles/*.log";
+
     public List<String> getQueryResults(String inputLine, String singleFilePath) {
         List<String> commandResults = new ArrayList<>();
         try {
             // We need to treat it as shell for command that includes *.
             // https://stackoverflow.com/questions/2111983/java-runtime-getruntime-exec-wildcards
-            String[] args = new String[]{"sh", "-c", inputLine};
+            String[] args = new String[]{"sh", "-c", inputLine + LOG_FILE_LOCATION};
             ProcessBuilder builder = new ProcessBuilder(args);
             Process p = builder.start();
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
