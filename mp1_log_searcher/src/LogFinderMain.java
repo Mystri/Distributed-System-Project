@@ -36,15 +36,16 @@ public class LogFinderMain {
             System.out.print("$ ");
             String query = scanner.nextLine();
             if (query.startsWith("grep ")) {
-                long start = System.currentTimeMillis();
-                List<String> resultLogs = new ArrayList<>();
+                long startTime = System.currentTimeMillis();
+                List<String> results = new ArrayList<>();
                 int totalCount = 0;
+                // Send command to each client and process server response.
                 for (SocketClient client : clients) {
                     List<String> singleClientResult = client.sendMessage(query);
-                    resultLogs.addAll(singleClientResult);
+                    results.addAll(singleClientResult);
                     if (shouldReturnCount(query)) {
                         // When the user wants the count, we will also need to calculate the total count.
-                        // The line will have the format fileLocation:lineCount
+                        // The line will have the format "fileLocation:lineCount"
                         for (String res: singleClientResult) {
                             String[] splitedResponse = res.split(":");
                             try {
@@ -56,14 +57,14 @@ public class LogFinderMain {
                         }
                     }
                 }
-                for (String logs : resultLogs) {
+                for (String logs : results) {
                     System.out.println(logs);
                 }
                 if (shouldReturnCount(query)) {
                     System.out.println("Total number for the matching lines is: " + totalCount);
                 }
-                long finish = System.currentTimeMillis();
-                long timeElapsed = finish - start;
+                long finishTime = System.currentTimeMillis();
+                long timeElapsed = finishTime - startTime;
                 System.out.println("Total time used for this command is " + timeElapsed + " milliseconds");
             } else {
                 System.out.println("Unexpected Query");
@@ -74,9 +75,9 @@ public class LogFinderMain {
     }
 
     private static boolean shouldReturnCount(String message) {
-        String[] splitedMessage = message.split(" ");
-        if (splitedMessage.length >= 2) {
-            return splitedMessage[1].equals("-c") || splitedMessage[1].equals("-Ec");
+        String[] splitMessage = message.split(" ");
+        if (splitMessage.length >= 2) {
+            return splitMessage[1].equals("-c") || splitMessage[1].equals("-Ec");
         }
         return false;
     }

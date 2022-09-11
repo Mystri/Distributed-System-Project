@@ -21,7 +21,7 @@ public class SocketClient {
     }
 
     public boolean start() {
-        System.out.println("Loading contents of URL: " + serverIp);
+        System.out.println("Connecting to: " + serverIp);
         try {
             socket = new Socket(serverIp, 8001);
             out = new PrintStream(socket.getOutputStream(), true);
@@ -29,7 +29,8 @@ public class SocketClient {
             return true;
         } catch (Exception e) {
             // We don't print stack trace to keep the console clean.
-            System.out.println("Connect to " + serverIp + " failed");
+            // It is expected to get an Exception when the server is off.
+            System.out.println("Failed to connect to " + serverIp);
             return false;
         }
     }

@@ -14,6 +14,7 @@ public class SocketMultipleServer {
 
     public void start() {
         try {
+            // Port hardcoded to 8001.
             ServerSocket serverSocket = new ServerSocket(8001);
             System.out.println("Listening for a connection");
             while (true) {
