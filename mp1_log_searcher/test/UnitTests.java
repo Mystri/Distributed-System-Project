@@ -1,11 +1,11 @@
 import org.junit.jupiter.api.*;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
 /**
- * Unit tests for querying with grep search on local files.
+ * Unit tests for querying with grep search on local files. Need to make sure that the logFiles folder is empty before
+ * running the tests.
  */
 public class UnitTests {
 
@@ -14,7 +14,6 @@ public class UnitTests {
     }
 
     private static QueryHandler queryHandler;
-
 
     @BeforeAll
     public static void setUp() {
@@ -27,9 +26,10 @@ public class UnitTests {
             if (file.getName().startsWith("__test_")) file.delete();
         }
     }
-    
+
     @Test
     public void testLocalQueryResults_noOccurence() {
+        System.out.println(getLogsGeneratePath("test1"));
         LogGenerator.generate(getLogsGeneratePath("test1"), "aaaa", 1, 1);
         List<String> queryResults = queryHandler.getQueryResults("grep -c test", "__test_test1.log");
         Assertions.assertEquals(1, queryResults.size());
@@ -101,7 +101,7 @@ public class UnitTests {
 
     @Test
     public void testLocalQueryResults_multipleFileMultipleResult_rowCount() {
-        for (int i = 0; i < 10 ; i++) {
+        for (int i = 0; i < 10; i++) {
             LogGenerator.generate(getLogsGeneratePath("test" + i), "test", 50, 100);
         }
         List<String> queryResults = queryHandler.getQueryResults("grep -c test", null);
@@ -117,7 +117,7 @@ public class UnitTests {
 
     @Test
     public void testLocalQueryResults_multipleFileMultipleResult_rowCount_regex() {
-        for (int i = 0; i < 10 ; i++) {
+        for (int i = 0; i < 10; i++) {
             LogGenerator.generate(getLogsGeneratePath("test" + i), "test", 50, 100);
         }
         List<String> queryResults = queryHandler.getQueryResults("grep -Ec ^te.t", null);
@@ -130,6 +130,4 @@ public class UnitTests {
             Assertions.assertEquals(50, Integer.parseInt(resultSplit[1]));
         }
     }
-
-
 }

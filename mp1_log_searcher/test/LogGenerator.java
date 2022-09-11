@@ -8,6 +8,7 @@ import java.util.Scanner;
  * This class generate a log file. We will use the file for testing.
  */
 public class LogGenerator {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("fileName expectedWord expectedWordCount TotalLines");
@@ -20,6 +21,10 @@ public class LogGenerator {
         int expectedWordCount = Integer.parseInt(inputs[2]);
         int totalLines = Integer.parseInt(inputs[3]);
 
+        generate(fileName, expectedWord, expectedWordCount, totalLines);
+    }
+
+    public static void generate(String fileName, String expectedWord, int expectedWordCount, int totalLines) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".log"));
             for (int i = 0; i < expectedWordCount; i++) {
